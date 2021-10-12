@@ -5,9 +5,9 @@ function App() {
   return (
     <Router>
       <Switch>
-      <Route path="/" exact>
-        { stdntLoggedIn? "Home" : "Login" }
-      </Route>
+        <Route path="/" exact>
+          { stdntLoggedIn? "Home" : "Login" }
+        </Route>
       </Switch>
     </Router>
   );
