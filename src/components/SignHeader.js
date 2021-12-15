@@ -3,7 +3,7 @@ import { useReactiveVar } from '@apollo/client';
 import { isLoggedInUserVar, logUserOut } from "../apollo";
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import routes from './../routes';
+import routes from '../routes';
 
 const HeaderBox = styled.div`
     display: flex;
@@ -32,8 +32,7 @@ const MenuBtns = styled.span`
     padding-right: 30px;
 `;
 
-export default function Header() {
-    const isLoggedInUser = useReactiveVar(isLoggedInUserVar); 
+export default function SignHeader() {
     return(
     <HeaderBox>
         <HeaderLogo>
@@ -41,12 +40,11 @@ export default function Header() {
         </HeaderLogo>
         <HeaderMenu>
             <Link to={routes.main}><MenuBtns>Main</MenuBtns></Link>
-            <MenuBtns>Course</MenuBtns>
-            <MenuBtns>Tutors</MenuBtns>
-            {isLoggedInUser ? <Link to={routes.freeRegister}><MenuBtns>My Page</MenuBtns></Link> 
-            : null }
-            {isLoggedInUser ? <Link to={routes.main}><MenuBtns onClick={async()=>{await logUserOut();}}>Logout</MenuBtns></Link> 
-            : <Link to={routes.login}><MenuBtns>Login</MenuBtns></Link>}
+            {window.location.pathname === "/login" ? (
+                <Link to={routes.signUp}><MenuBtns>Sign Up</MenuBtns></Link>
+            ): (
+                <Link to={routes.login}><MenuBtns>Log In</MenuBtns></Link>
+            )}
         </HeaderMenu>
     </HeaderBox>
     )    

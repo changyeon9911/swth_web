@@ -10,6 +10,13 @@ import Header from './components/Header';
 import NotFound from './screens/NotFound';
 import SignUp from './screens/SignUp';
 import routes from './routes';
+import FreeRegister from "./screens/FreeRegister";
+import SignHeader from "./components/SignHeader";
+import MyPageHeader from "./components/mypage/MyPageHeader";
+import MyPageProfile from "./components/mypage/MyPageProfile";
+import MyPageNav from "./components/mypage/MyPageNav";
+import MyCourses from "./screens/MyCourses";
+import RegisterCourse from "./screens/RegisterCourse";
 
 function App() {
   const isLoggedInUser = useReactiveVar(isLoggedInUserVar);
@@ -21,21 +28,74 @@ function App() {
     <ThemeProvider theme = {darkMode? darkTheme : lightTheme}>
     <GlobalStyles />
     <Router>
-      <Header/>
       <Switch>
         <Route path={routes.main} exact>
+          <Header/>
           <Main/>
         </Route>
         {!isLoggedInUser? (
         <Route path={routes.login} exact>
+          <SignHeader/>
           <Login/>
         </Route>
         ) : null}
         {!isLoggedInUser? (
         <Route path={routes.signUp} exact>
+          <SignHeader/>
           <SignUp/>
         </Route>
         ) : null}
+        {isLoggedInUser? (
+        <Route path={routes.freeRegister} exact>
+          <MyPageHeader/>
+          <MyPageProfile/>
+          <MyPageNav/>
+          <FreeRegister/>
+        </Route>
+        ) : (
+        <Route path={routes.login} exact>
+          <SignHeader/>
+          <Login/>
+        </Route>)}
+        {isLoggedInUser? (
+        <Route path={routes.freeRegister} exact>
+          <MyPageHeader/>
+          <MyPageProfile/>
+          <MyPageNav/>
+          <FreeRegister/>
+        </Route>
+        ) : (
+        <Route path={routes.login} exact>
+          <SignHeader/>
+          <Login/>
+        </Route>
+        )}
+        {isLoggedInUser? (
+        <Route path={routes.registerCourse} exact>
+          <MyPageHeader/>
+          <MyPageProfile/>
+          <MyPageNav/>
+          <RegisterCourse/>
+        </Route>
+        ) : (
+        <Route path={routes.login} exact>
+          <SignHeader/>
+          <Login/>
+        </Route>
+        )}
+        {isLoggedInUser? (
+        <Route path={routes.myCourses} exact>
+          <MyPageHeader/>
+          <MyPageProfile/>
+          <MyPageNav/>
+          <MyCourses/>
+        </Route>
+        ) : (
+        <Route path={routes.login} exact>
+          <SignHeader/>
+          <Login/>
+        </Route>
+        )}
         <Route>
           <NotFound/>
         </Route>

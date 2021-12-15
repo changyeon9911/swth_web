@@ -1,8 +1,5 @@
 import {
-  faFacebook,
-  faFacebookF,
   faFacebookSquare,
-  faInstagram,
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
@@ -13,13 +10,15 @@ import Button from "../components/auth/Button";
 import FormBox from "../components/auth/FormBox";
 import Input from "../components/auth/Input";
 import FacebookLogin from './../components/auth/FacebookLogin';
-import { FatLink } from "../components/shared";
 import routes from "../routes";
 import Separator from './../components/auth/Separator';
 import PageTitle from './../components/PageTitle';
-import { useForm } from "react-hook-form";
+import { useForm, useFormState } from "react-hook-form";
 import Subtitle from './../components/auth/Subtitle';
-import { gql } from '@apollo/client';
+import { gql, useMutation } from '@apollo/client';
+import { useHistory } from "react-router-dom";
+import { useState } from "react";
+import verifyEmail from "../verifyEmail";
 
 const CREATESTDNT_MUTATION = gql`
   mutation CreateStdnt($email: String!, $username: String!, $password: String!) {
@@ -30,21 +29,71 @@ const CREATESTDNT_MUTATION = gql`
   }
 `;
 
-
 const HeaderContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
+const VerifyBtn = styled.button`
+  border: none;
+  border-radius: 3px;
+  margin-top: 12px;
+  background-color: ${(props) => props.theme.skyBlue};
+  color: white;
+  text-align: center;
+  padding: 8px 0px;
+  font-weight: 600;
+  width: 50%;
+  opacity: ${(props) => (props.disabled ? "0.2" : "1")};
+`;
 
 export default function SignUp() {
-  const {register, handleSubmit, errors, formState } = useForm({
-      mode: "onChange",
-  });
-  const onSubmitValid = (data) => {
-      console.log(data);
-  }
+  
+  const history = useHistory();  
+  const {register, handleSubmit, getValues, control} = useForm({mode: "onChange"});
+  const {isValid, errors} = useFormState({control});
+  const [EmailVerified, SetEmailVerified] = useState(false);
+
+  const onCompleted = (data) => {
+    const { CreateStdnt: { ok, error } } = data;
+    if (ok) {
+      const {email, password} = getValues();
+      history.push({
+        pathname: "/login",
+        state: {email, password},
+      }); 
+    } else {
+      alert(error);
+    }
+  };
+  
+  const [createStdnt, {loading}] = useMutation(CREATESTDNT_MUTATION, {onCompleted});
+  
+  const onSubmitValid = () => {
+      if (loading) {
+        return;
+      }
+      const {email, username, password} = getValues();
+      createStdnt({variables:{
+        email,
+        username,
+        password
+      }});
+  };
+
+  const onClickVerifyEmail = async () => {
+    const {email} = getValues();
+    console.log(email);
+    const status = await verifyEmail(email);
+    if (status === "valid") {
+      SetEmailVerified(true);
+    } else {
+      console.log(false);
+      alert("유효하지 않은 이메일입니다.");
+    }
+  };
+
   return (
     <AuthLayout>
       <PageTitle title="Sign Up"/>
@@ -59,21 +108,15 @@ export default function SignUp() {
         </HeaderContainer>
         <form onSubmit={handleSubmit(onSubmitValid)}>
           <Input 
-            ref={register("name", {
-                required: "Name is required."})}
-            type="text"
-            placeholder="Name"
-            hasError={Boolean(errors?.name?.message)}/>
-          <FormError message={errors?.name?.message}/>
-          <Input 
-            ref={register("email", {
+            {...register("email", {
                 required: "E-mail is required."})}
             type="text"
             placeholder="Email"
-            hasError={Boolean(errors?.email.message)}/>
+            hasError={Boolean(errors?.email?.message)}/>
           <FormError message={errors?.email?.message}/>
+          {EmailVerified ? null : <VerifyBtn type="button" onClick={() => {onClickVerifyEmail();}}>Verify Email</VerifyBtn>}
           <Input 
-            ref={register("username", {
+            {...register("username", {
                 required: "Username is required",
                 minLength: {
                   value: 5,
@@ -82,17 +125,19 @@ export default function SignUp() {
               })}
             type="text"
             placeholder="Username"
-            hasError={Boolean(errors?.username?.message)}/>
+            hasError={Boolean(errors?.username?.message)}
+            style={{visibility: (EmailVerified ? "visible" : "hidden")}}/>
           <FormError message={errors?.username?.message}/>
           <Input
-            ref={register("password", {
+            {...register("password", {
               required: "Password is required.",
             })}
             type="password"
             placeholder="Password"
-            hasError={Boolean(errors?.password?.message)}/>
+            hasError={Boolean(errors?.password?.message)}
+            style={{visibility: (EmailVerified ? "visible" : "hidden")}}/>
           <FormError message={errors?.password?.message} />
-          <Button type="submit" value="Log in" disabled={!formState.isValid}/>
+          <Button type="submit" value="Create Account" disabled={!isValid} style={{visibility: (EmailVerified ? "visible" : "hidden")}}/>
         </form>
         <Separator />
         <FacebookLogin>

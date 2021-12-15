@@ -1,7 +1,9 @@
-import { makeVar, InMemoryCache, ApolloClient } from "@apollo/client";
+import { makeVar, InMemoryCache, ApolloClient, createHttpLink } from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
 
 const TOKEN = "token";
 const AUTHOR = "author";
+const TRIED = "tried";
 const ADMIN = "0";
 const TUTOR = "1";
 const STDNT = "2";
@@ -9,38 +11,64 @@ const UNKWN = "3";
 
 export const isLoggedInUserVar = makeVar(Boolean(localStorage.getItem(TOKEN)));
 export const isLoggedInAsWhoVar = makeVar(String(localStorage.getItem(AUTHOR)));
+export const isTriedVar = makeVar(Boolean(localStorage.getItem(TRIED)));
+export const tokenVar = makeVar("");
 
-export const logAdminIn = (token) => {
-  localStorage.setItem(TOKEN, token);
-  localStorage.setItem(AUTHOR, "0");
+export const logAdminIn = async (token) => {
+  await localStorage.setItem(TOKEN, token);
+  await localStorage.setItem(AUTHOR, "0");
   isLoggedInUserVar(true);
   isLoggedInAsWhoVar("0");
+  tokenVar(token);
 };
 
-export const logTutorIn = (token) => {
-  localStorage.setItem(TOKEN, token);
-  localStorage.setItem(AUTHOR, "1");
+export const logTutorIn = async (token) => {
+  await localStorage.setItem(TOKEN, token);
+  await localStorage.setItem(AUTHOR, "1");
   isLoggedInUserVar(true);
   isLoggedInAsWhoVar("1");
+  tokenVar(token);
 };
 
-export const logStdntIn = (token) => {
-  localStorage.setItem(TOKEN, token);
-  localStorage.setItem(AUTHOR, "2");
+export const logStdntIn = async (token) => {
+  await localStorage.setItem(TOKEN, token);
+  await localStorage.setItem(AUTHOR, "2");
   isLoggedInUserVar(true);
   isLoggedInAsWhoVar("2");
+  tokenVar(token);
 };
 
-
-export const logUserOut = () => {
-  localStorage.removeItem(TOKEN);
+export const logUserOut = async () => {
+  await localStorage.removeItem(TOKEN);
+  await localStorage.removeItem(TRIED);
   isLoggedInUserVar(false);
   isLoggedInAsWhoVar("3");
+  tokenVar("");
+  isTriedVar(false);
+};
+
+export const setTried = async (tried) => {
+  await localStorage.setItem(TRIED, tried);
+  isTriedVar(tried);
 };
 
 export const darkModeVar = makeVar(false);
 
+const httpLink = createHttpLink({
+  uri: "https://sweethanbackend.herokuapp.com/graphql",
+});
+
+const authLink = setContext(async(_, { headers }) => {
+  const token = await localStorage.getItem(TOKEN);
+  return {
+    headers: {
+      ...headers,
+      token,
+    }
+  }
+});
+
 export const client = new ApolloClient({
-    uri: "https://sweethanbackend.herokuapp.com/graphql",
-    cache: new InMemoryCache(),
-})
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache()
+});
