@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const Select = styled.select`
@@ -16,9 +17,9 @@ const Select = styled.select`
   }
 `;
 
-const LevelPicker = () => {
+function LevelPicker({ register }) {
     return (
-          <Select name="from">
+          <Select name="from" onChange={register.onChange} onBlur={register.onBlur} name={register.name} ref={register.ref}>
             <option value="1">초급</option>
             <option value="2">중급</option>
             <option value="3">고급</option>
@@ -26,4 +27,9 @@ const LevelPicker = () => {
     )
 }
 
+LevelPicker.propTypes = {
+  register: PropTypes.object.isRequired,
+};
+
 export default LevelPicker;
+

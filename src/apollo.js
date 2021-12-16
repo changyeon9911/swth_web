@@ -15,32 +15,32 @@ export const isTriedVar = makeVar(Boolean(localStorage.getItem(TRIED)));
 export const tokenVar = makeVar("");
 
 export const logAdminIn = async (token) => {
-  await localStorage.setItem(TOKEN, token);
-  await localStorage.setItem(AUTHOR, "0");
+  localStorage.setItem(TOKEN, token);
+  localStorage.setItem(AUTHOR, "0");
   isLoggedInUserVar(true);
   isLoggedInAsWhoVar("0");
   tokenVar(token);
 };
 
 export const logTutorIn = async (token) => {
-  await localStorage.setItem(TOKEN, token);
-  await localStorage.setItem(AUTHOR, "1");
+  localStorage.setItem(TOKEN, token);
+  localStorage.setItem(AUTHOR, "1");
   isLoggedInUserVar(true);
   isLoggedInAsWhoVar("1");
   tokenVar(token);
 };
 
 export const logStdntIn = async (token) => {
-  await localStorage.setItem(TOKEN, token);
-  await localStorage.setItem(AUTHOR, "2");
+  localStorage.setItem(TOKEN, token);
+  localStorage.setItem(AUTHOR, "2");
   isLoggedInUserVar(true);
   isLoggedInAsWhoVar("2");
   tokenVar(token);
 };
 
 export const logUserOut = async () => {
-  await localStorage.removeItem(TOKEN);
-  await localStorage.removeItem(TRIED);
+  localStorage.removeItem(TOKEN);
+  localStorage.removeItem(TRIED);
   isLoggedInUserVar(false);
   isLoggedInAsWhoVar("3");
   tokenVar("");
@@ -48,7 +48,7 @@ export const logUserOut = async () => {
 };
 
 export const setTried = async (tried) => {
-  await localStorage.setItem(TRIED, tried);
+  localStorage.setItem(TRIED, tried);
   isTriedVar(tried);
 };
 
@@ -59,7 +59,7 @@ const httpLink = createHttpLink({
 });
 
 const authLink = setContext(async(_, { headers }) => {
-  const token = await localStorage.getItem(TOKEN);
+  const token = localStorage.getItem(TOKEN);
   return {
     headers: {
       ...headers,

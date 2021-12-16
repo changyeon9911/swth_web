@@ -1,5 +1,5 @@
-import { useReactiveVar } from "@apollo/client";
-import { isTriedVar } from "../apollo";
+import { gql, useReactiveVar, useMutation } from "@apollo/client";
+import { isTriedVar, setTried } from "../apollo";
 import PageTitle from "../components/PageTitle";
 import FormBox from "../components/auth/FormBox";
 import Subtitle from './../components/auth/Subtitle';
@@ -8,10 +8,53 @@ import MyPageBorder from "../components/mypage/MyPageBorder";
 import Button from "../components/auth/Button";
 import Input from "../components/auth/Input";
 import TimePicker from "../components/auth/TimePicker";
+import LevelPicker from "../components/auth/LevelPicker";
+import routes from "../routes";
+import { useHistory } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
+const CREATE_FREECOURSE_STDNT_MUTATION = gql`
+  mutation CreateFreeCourseStdnt($classDate: String!, $classTime: String!, $level: String!) {
+      CreateFreeCourseStdnt(classDate: $classDate, classTime: $classTime, level: $level) {
+        ok
+        error
+    }
+  }
+`;
+
+const EDIT_STDNT_MUTATION = gql`
+  mutation EditStdnt($email: String, $password: String, $tried: Boolean) {
+    EditStdtnt(email: $email, password: $password, tried: $tried) {
+      ok
+      error
+    }
+  } 
+`;
 
 export default function FreeRegister() {
+  const history = useHistory();
   const tried = useReactiveVar(isTriedVar);
+  const { register, handleSubmit, getValues } = useForm();
+  const onCompleted = async (data) => {
+    const { CreateFreeCourseStdnt: { ok, error } } = data;
+    if (ok) {
+      history.push(routes.editTried);
+    } else {
+      alert(error);
+    }
+  };
+  const [ mutationf, { loading }] = useMutation(CREATE_FREECOURSE_STDNT_MUTATION, {onCompleted});
+  const onSubmitValid = () => {
+    if (loading) {
+      return;
+    }
+    console.log(getValues());
+    const { classDate, classTime, level } = getValues();
+    console.log(classTime);
+    mutationf({
+      variables: { classDate, classTime, level },
+    });
+  };
   if (tried) {
     return (
       <MyPageSemiLayout>
@@ -23,23 +66,32 @@ export default function FreeRegister() {
         </FormBox>
       </MyPageSemiLayout>
      );
-  } else {
-    return (
-      <MyPageSemiLayout>
-      <PageTitle title="FreeRegister"/>
-      <FormBox>
-        <div>무료 신청하기</div>
-        <form>
-          <Input
-            type="number"
-            placeholder="전화번호"/>
-          <Input
+  }  else {
+  return (
+    <MyPageSemiLayout>
+    <PageTitle title="FreeRegister"/>
+    <FormBox>
+      <div>무료 신청하기</div>
+      <form onSubmit={handleSubmit(onSubmitValid)}>
+        <Input
+            {...register("classDate", {
+              required: "classDate is required",
+            })}
             type="date"/>
-          <TimePicker/>
-          <Button type="submit"/>
-        </form>
-      </FormBox>
-    </MyPageSemiLayout>
-    );
-  }
+        <TimePicker 
+            register = {{...register("classTime", {
+              required: "classTime is required",
+            })}}/>
+        <LevelPicker
+            register = {{...register("level", {
+              required: "level is required",
+            })}}/>
+        <Button
+            type="submit"
+            value={loading ? "Loading..." : "무료 체험 신청하기"}/>
+      </form>
+    </FormBox>
+  </MyPageSemiLayout>
+  ); 
+}
 }

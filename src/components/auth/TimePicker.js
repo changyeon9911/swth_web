@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 const Select = styled.select`
   width: 100%;
@@ -16,16 +17,20 @@ const Select = styled.select`
   }
 `;
 
-const TimePicker = () => {
+function TimePicker({register}) {
     return (
-          <Select name="from">
-            <option value="1">1:00</option>
-            <option value="2">2:00</option>
-            <option value="3">3:00</option>
-            <option value="4">4:00</option>
-            <option value="5">5:00</option>
+          <Select name="from" onChange={register.onChange} onBlur={register.onBlur} name={register.name} ref={register.ref}>
+            <option value="1:0">1:00</option>
+            <option value="2:0">2:00</option>
+            <option value="3:0">3:00</option>
+            <option value="4:0">4:00</option>
+            <option value="5:0">5:00</option>
           </Select>
     )
 }
+
+TimePicker.propTypes = {
+  register: PropTypes.object.isRequired,
+};
 
 export default TimePicker;

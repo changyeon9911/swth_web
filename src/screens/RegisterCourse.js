@@ -1,24 +1,21 @@
-import { useReactiveVar } from "@apollo/client";
-import { isTriedVar } from "../apollo";
 import PageTitle from "../components/PageTitle";
-import FormBox from "../components/auth/FormBox";
-import Subtitle from './../components/auth/Subtitle';
 import MyPageSemiLayout from "../components/mypage/MyPageSemiLayout";
-import MyPageBorder from "../components/mypage/MyPageBorder";
-import Button from "../components/auth/Button";
-import Input from "../components/auth/Input";
-import TimePicker from "../components/auth/TimePicker";
-import LevelPicker from "../components/auth/LevelPicker";
+import CourseCard from "../components/CourseCard";
+import TutorCard from "../components/TutorCard";
+import { Link } from "react-router-dom";
+import routes from "../routes";
+import TutorPack from "../components/TutorPack";
 
 
 export default function RegisterCourse() {
     return (
       <MyPageSemiLayout>
         <PageTitle title="RegisterCourse"/>
-        <form>
-          <LevelPicker/>
-          <Button type="submit" value="수업 신청하기"/>
-        </form>
+        <div style={{display: "flex"}}>
+          <Link to={routes.masterCourse}><CourseCard>1:1 Master Course</CourseCard></Link>
+          <Link to={routes.groupCourse}><CourseCard>1:N Group Course</CourseCard></Link>
+        </div>
+        <TutorPack/>
       </MyPageSemiLayout>
      );
 }

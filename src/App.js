@@ -17,6 +17,12 @@ import MyPageProfile from "./components/mypage/MyPageProfile";
 import MyPageNav from "./components/mypage/MyPageNav";
 import MyCourses from "./screens/MyCourses";
 import RegisterCourse from "./screens/RegisterCourse";
+import GroupCourse from "./screens/GroupCourse";
+import MasterCourse from "./screens/MasterCourse";
+import GroupCourseThree from "./screens/GroupCourseTwo";
+import GroupCourseTwo from "./screens/GroupCourseThree";
+import GroupCourseOne from "./screens/GroupCourseOne";
+import EditTried from "./screens/EditTried";
 
 function App() {
   const isLoggedInUser = useReactiveVar(isLoggedInUserVar);
@@ -53,19 +59,16 @@ function App() {
           <FreeRegister/>
         </Route>
         ) : (
-        <Route path={routes.login} exact>
+        <Route path={routes.freeRegister} exact>
           <SignHeader/>
           <Login/>
         </Route>)}
         {isLoggedInUser? (
-        <Route path={routes.freeRegister} exact>
-          <MyPageHeader/>
-          <MyPageProfile/>
-          <MyPageNav/>
-          <FreeRegister/>
+        <Route path={routes.editTried} exact>
+          <EditTried/>
         </Route>
         ) : (
-        <Route path={routes.login} exact>
+        <Route path={routes.editTried} exact>
           <SignHeader/>
           <Login/>
         </Route>
@@ -78,7 +81,7 @@ function App() {
           <RegisterCourse/>
         </Route>
         ) : (
-        <Route path={routes.login} exact>
+        <Route path={routes.registerCourse} exact>
           <SignHeader/>
           <Login/>
         </Route>
@@ -91,9 +94,74 @@ function App() {
           <MyCourses/>
         </Route>
         ) : (
-        <Route path={routes.login} exact>
+        <Route path={routes.myCourses} exact>
           <SignHeader/>
           <Login/>
+        </Route>
+        )}
+        {isLoggedInUser? (
+        <Route path={routes.masterCourse} exact>
+          <MyPageHeader/>
+          <MyPageProfile/>
+          <MyPageNav/>
+          <MasterCourse/>
+        </Route>
+        ) : (
+        <Route path={routes.masterCourse} exact>
+          <SignHeader/>
+          <MasterCourse/>
+        </Route>
+        )}
+        {isLoggedInUser? (
+        <Route path={routes.groupCourse} exact>
+          <MyPageHeader/>
+          <MyPageProfile/>
+          <MyPageNav/>
+          <GroupCourse/>
+        </Route>
+        ) : (
+        <Route path={routes.groupCourse} exact>
+          <SignHeader/>
+          <GroupCourse/>
+        </Route>
+        )}
+        {isLoggedInUser? (
+        <Route path={routes.gl1} exact>
+          <MyPageHeader/>
+          <MyPageProfile/>
+          <MyPageNav/>
+          <GroupCourseOne/>
+        </Route>
+        ) : (
+        <Route path={routes.gl1} exact>
+          <SignHeader/>
+          <GroupCourseOne/>
+        </Route>
+        )}
+        {isLoggedInUser? (
+        <Route path={routes.gl2} exact>
+          <MyPageHeader/>
+          <MyPageProfile/>
+          <MyPageNav/>
+          <GroupCourseTwo/>
+        </Route>
+        ) : (
+        <Route path={routes.gl2} exact>
+          <SignHeader/>
+          <GroupCourseTwo/>
+        </Route>
+        )}
+        {isLoggedInUser? (
+        <Route path={routes.gl3} exact>
+          <MyPageHeader/>
+          <MyPageProfile/>
+          <MyPageNav/>
+          <GroupCourseThree/>
+        </Route>
+        ) : (
+        <Route path={routes.gl3} exact>
+          <SignHeader/>
+          <GroupCourseThree/>
         </Route>
         )}
         <Route>
