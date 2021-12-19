@@ -21,8 +21,8 @@ import { useState } from "react";
 import verifyEmail from "../verifyEmail";
 
 const CREATESTDNT_MUTATION = gql`
-  mutation CreateStdnt($email: String!, $username: String!, $password: String!) {
-    CreateStdnt(email: $email, username: $username, password: $password) {
+  mutation CreateStdnt($email: String!, $phone: String!, $username: String!, $password: String!) {
+    CreateStdnt(email: $email, phone: $phone, username: $username, password: $password) {
       ok
       error
     }
@@ -74,9 +74,10 @@ export default function SignUp() {
       if (loading) {
         return;
       }
-      const {email, username, password} = getValues();
+      const {email, phone, username, password} = getValues();
       createStdnt({variables:{
         email,
+        phone,
         username,
         password
       }});
@@ -115,6 +116,19 @@ export default function SignUp() {
             hasError={Boolean(errors?.email?.message)}/>
           <FormError message={errors?.email?.message}/>
           {EmailVerified ? null : <VerifyBtn type="button" onClick={() => {onClickVerifyEmail();}}>Verify Email</VerifyBtn>}
+          <Input 
+            {...register("phone", {
+                required: "Phone is required",
+                minLength: {
+                  value: 5,
+                  message: "Phone should be longer than 5 chars.",
+                },
+              })}
+            type="text"
+            placeholder="Phone Number"
+            hasError={Boolean(errors?.phone?.message)}
+            style={{visibility: (EmailVerified ? "visible" : "hidden")}}/>
+          <FormError message={errors?.phone?.message}/>
           <Input 
             {...register("username", {
                 required: "Username is required",

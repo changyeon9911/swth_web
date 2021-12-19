@@ -1,6 +1,8 @@
 import { gql, useQuery } from "@apollo/client";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import MyPageSemiLayout from "../components/mypage/MyPageSemiLayout";
+import routes from "../routes";
 
 
 const VIEWSTDNTSELFPAID_QUERY = gql`
@@ -34,7 +36,6 @@ export default function MyCourses() {
         courses = new Array(0);
     } else {
         const paidCoursesId = data?.ViewStdntSelfPaid?.paidCoursesId
-        console.log(paidCoursesId);
         courses = courses.map(e => {if (e.id in paidCoursesId) {return {...e, paid: true}} else {return {...e, paid: false}}})
     }   
     return (

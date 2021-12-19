@@ -35,7 +35,7 @@ export default function MyPageHeader() {
     return(
     <HeaderBox>
         <HeaderLogo>
-            <MenuBtns>SWTHLOGO</MenuBtns>
+            <Link to={routes.main}><MenuBtns>SWTHLOGO</MenuBtns></Link>
         </HeaderLogo>
         <HeaderMenu>
             <Link to={routes.main}><MenuBtns onClick={async()=>{await logUserOut();}}>Log out</MenuBtns></Link>

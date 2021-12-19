@@ -24,7 +24,7 @@ const CREATE_FREECOURSE_STDNT_MUTATION = gql`
 
 const EDIT_STDNT_MUTATION = gql`
   mutation EditStdnt($email: String, $password: String, $tried: Boolean) {
-    EditStdtnt(email: $email, password: $password, tried: $tried) {
+    EditStdnt(email: $email, password: $password, tried: $tried) {
       ok
       error
     }
@@ -38,7 +38,6 @@ export default function EditTried() {
     if (ok) {
       editStdnt({variables: {tried: true}});
       setTried(true);
-      alert("신청이 완료되었습니다.");
       history.push(routes.registerCourse);
     } else {
       alert(error);
