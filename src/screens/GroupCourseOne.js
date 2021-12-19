@@ -1,5 +1,4 @@
 import * as React from 'react';
-import LevelPicker from '../components/auth/LevelPicker';
 import Button from '../components/auth/Button';
 
 export default function GroupCourseOne() {

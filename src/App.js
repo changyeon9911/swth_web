@@ -6,7 +6,6 @@ import { lightTheme, darkTheme, GlobalStyles } from './styles';
 import { HelmetProvider } from "react-helmet-async";
 import Main from './screens/Main';
 import Login from './screens/Login';
-import Header from './components/Header';
 import NotFound from './screens/NotFound';
 import SignUp from './screens/SignUp';
 import routes from './routes';
@@ -23,6 +22,7 @@ import GroupCourseThree from "./screens/GroupCourseTwo";
 import GroupCourseTwo from "./screens/GroupCourseThree";
 import GroupCourseOne from "./screens/GroupCourseOne";
 import EditTried from "./screens/EditTried";
+import CourseRoad from "./screens/CourseRoad";
 
 function App() {
   const isLoggedInUser = useReactiveVar(isLoggedInUserVar);
@@ -36,7 +36,6 @@ function App() {
     <Router>
       <Switch>
         <Route path={routes.main} exact>
-          <Header/>
           <Main/>
         </Route>
         {!isLoggedInUser? (
@@ -162,6 +161,19 @@ function App() {
         <Route path={routes.gl3} exact>
           <SignHeader/>
           <GroupCourseThree/>
+        </Route>
+        )}
+        {isLoggedInUser? (
+        <Route path={routes.courseRoad} exact>
+          <MyPageHeader/>
+          <MyPageProfile/>
+          <MyPageNav/>
+          <CourseRoad/>
+        </Route>
+        ) : (
+        <Route path={routes.courseRoad} exact>
+          <SignHeader/>
+          <Login/>
         </Route>
         )}
         <Route>

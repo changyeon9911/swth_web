@@ -22,15 +22,6 @@ const CREATE_FREECOURSE_STDNT_MUTATION = gql`
   }
 `;
 
-const EDIT_STDNT_MUTATION = gql`
-  mutation EditStdnt($email: String, $password: String, $tried: Boolean) {
-    EditStdtnt(email: $email, password: $password, tried: $tried) {
-      ok
-      error
-    }
-  } 
-`;
-
 export default function FreeRegister() {
   const history = useHistory();
   const tried = useReactiveVar(isTriedVar);

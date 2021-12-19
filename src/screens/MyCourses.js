@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import MyPageSemiLayout from "../components/mypage/MyPageSemiLayout";
 import routes from "../routes";
+import CourseCard from "../components/CourseCard";
 
 
 const VIEWSTDNTSELFPAID_QUERY = gql`
@@ -36,12 +37,38 @@ export default function MyCourses() {
         courses = new Array(0);
     } else {
         const paidCoursesId = data?.ViewStdntSelfPaid?.paidCoursesId
-        courses = courses.map(e => {if (e.id in paidCoursesId) {return {...e, paid: true}} else {return {...e, paid: false}}})
+        courses = courses.map(e => {if (paidCoursesId.includes(e.id)) {return {...e, paid: true}} else {return {...e, paid: false}}})
     }   
     return (
         <MyPageSemiLayout>
-            <div>hello</div>
-            <div>{courses.length? "courses" : "No Course"}</div>
+            <div>
+                Paid
+                {courses.length? 
+                    courses.map(course => {
+                        if (!course.paid) {
+                            return;
+                        }
+                        return(
+                            <Link key={course.id} to={{pathname: routes.courseRoad, courseId: course.id}}>
+                                <CourseCard>{course.name}</CourseCard>
+                            </Link>
+                            );
+                        }) : "No Course"}
+            </div>
+            <div>
+                Waiting for Payment
+                {courses.length? 
+                    courses.map(course => {
+                        if (course.paid) {
+                            return;
+                        }
+                        return(
+                            <Link key={course.id} to={{pathname: routes.courseRoad, courseId: course.id}}>
+                                <CourseCard>{course.name}</CourseCard>
+                            </Link>
+                            );
+                        }) : "No Course"}
+            </div>
         </MyPageSemiLayout>
     );
 }

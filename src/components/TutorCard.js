@@ -10,7 +10,7 @@ const Container = styled(BaseBox)`
   margin-bottom: 10px;
 `;
 
-function TutorCard({ children }) {
-  return <Container>{children}</Container>;
+function TutorCard({ onClick, children }) {
+  return <Container onClick={onClick}>{children}</Container>;
 }
 export default TutorCard;

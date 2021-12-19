@@ -1,6 +1,4 @@
 import MyPageSemiLayout from "../components/mypage/MyPageSemiLayout";
-import LevelPicker from "../components/auth/LevelPicker";
-import Button from "../components/auth/Button";
 import CourseCard from "../components/CourseCard";
 import { Link } from "react-router-dom";
 import routes from "../routes";
