@@ -19,7 +19,7 @@ const Select = styled.select`
 
 function TimePicker({register}) {
     return (
-          <Select name="from" onChange={register.onChange} onBlur={register.onBlur} name={register.name} ref={register.ref}>
+          <Select onChange={register.onChange} onBlur={register.onBlur} name={register.name} ref={register.ref}>
             <option value="1:0">1:00</option>
             <option value="2:0">2:00</option>
             <option value="3:0">3:00</option>

@@ -19,7 +19,7 @@ const Select = styled.select`
 
 function LevelPicker({ register }) {
     return (
-          <Select name="from" onChange={register.onChange} onBlur={register.onBlur} name={register.name} ref={register.ref}>
+          <Select onChange={register.onChange} onBlur={register.onBlur} name={register.name} ref={register.ref}>
             <option value="1">초급</option>
             <option value="2">중급</option>
             <option value="3">고급</option>

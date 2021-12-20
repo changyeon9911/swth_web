@@ -1,7 +1,6 @@
 import PageTitle from "../components/PageTitle";
 import MyPageSemiLayout from "../components/mypage/MyPageSemiLayout";
 import CourseCard from "../components/CourseCard";
-import TutorCard from "../components/TutorCard";
 import { Link } from "react-router-dom";
 import routes from "../routes";
 import TutorPack from "../components/TutorPack";

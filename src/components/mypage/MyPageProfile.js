@@ -60,13 +60,13 @@ const LISTLATESTCLASS_QUERY = gql`
 `;
 
 export default function MyPageProfile() {
-    const { data : data1, loading: loading1, error: error1, refetch: refetch1 } = useQuery(VIEWSTDNTSELF_QUERY);
-    const { data : data2, loading: loading2, error: error2, refetch: refetch2 } = useQuery(LISTLATESTCLASS_QUERY);
+    const { data : data1, refetch: refetch1 } = useQuery(VIEWSTDNTSELF_QUERY);
+    const { data : data2, refetch: refetch2 } = useQuery(LISTLATESTCLASS_QUERY);
     
     useEffect(() => {
             refetch1();
             refetch2();
-        }, []);
+        });
     
     const stdnt = (data1 ? data1.ViewStdntSelf.stdnt : false);
     const latestClassOk = data2?.ListLatestClass?.ok;

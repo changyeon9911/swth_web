@@ -21,7 +21,7 @@ export default function CourseRoad() {
     const location = useLocation();
     const courseId = location.courseId;
     console.log(courseId);
-    const {data, error, loading, refetch} = useQuery(VIEW_COURSE_QUERY, {
+    const {data, error, loading} = useQuery(VIEW_COURSE_QUERY, {
         variables: {id: courseId}
     })
 

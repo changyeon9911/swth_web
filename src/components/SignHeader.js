@@ -1,6 +1,4 @@
 import { React } from 'react';
-import { useReactiveVar } from '@apollo/client';
-import { isLoggedInUserVar, logUserOut } from "../apollo";
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import routes from '../routes';

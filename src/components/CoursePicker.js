@@ -19,7 +19,7 @@ const Select = styled.select`
 
 function CoursePicker({register}) {
     return (
-          <Select name="from" onChange={register.onChange} onBlur={register.onBlur} name={register.name} ref={register.ref}>
+          <Select onChange={register.onChange} onBlur={register.onBlur} name={register.name} ref={register.ref}>
             <option value="1">월수금 7시반 시작</option>
             <option value="2">월수금 8시반 시작</option>
           </Select>

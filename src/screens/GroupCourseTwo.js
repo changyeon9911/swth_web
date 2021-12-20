@@ -6,7 +6,7 @@ import CoursePicker from '../components/CoursePicker';
 import { useForm } from 'react-hook-form';
 
 export default function GroupCourseTwo() {
-    const {register, getValues} = useForm();
+    const {register} = useForm();
     return(
     <AuthLayout>
       <FormBox>

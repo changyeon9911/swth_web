@@ -4,10 +4,6 @@ import { setContext } from "@apollo/client/link/context";
 const TOKEN = "token";
 const AUTHOR = "author";
 const TRIED = "tried";
-const ADMIN = "0";
-const TUTOR = "1";
-const STDNT = "2";
-const UNKWN = "3";
 
 export const isLoggedInUserVar = makeVar(Boolean(localStorage.getItem(TOKEN)));
 export const isLoggedInAsWhoVar = makeVar(String(localStorage.getItem(AUTHOR)));

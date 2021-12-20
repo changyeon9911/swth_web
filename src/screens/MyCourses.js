@@ -29,15 +29,15 @@ const VIEWSTDNTSELFPAID_QUERY = gql`
 export default function MyCourses() {
     useEffect(() => {
         refetch();
-    }, []);
+    });
     
-    const { data, loading, error, refetch } = useQuery(VIEWSTDNTSELFPAID_QUERY);
+    const { data, refetch } = useQuery(VIEWSTDNTSELFPAID_QUERY);
     let courses = data?.ViewStdntSelfPaid?.stdnt?.courses;
     if (!courses) {
         courses = new Array(0);
     } else {
         const paidCoursesId = data?.ViewStdntSelfPaid?.paidCoursesId
-        courses = courses.map(e => {if (paidCoursesId.includes(e.id)) {return {...e, paid: true}} else {return {...e, paid: false}}})
+        courses = courses.map(e => {if (paidCoursesId.includes(e.id)) {return {...e, paid: true}} return {...e, paid: false}})
     }   
     return (
         <MyPageSemiLayout>
@@ -46,7 +46,7 @@ export default function MyCourses() {
                 {courses.length? 
                     courses.map(course => {
                         if (!course.paid) {
-                            return;
+                            return null;
                         }
                         return(
                             <Link key={course.id} to={{pathname: routes.courseRoad, courseId: course.id}}>
@@ -60,7 +60,7 @@ export default function MyCourses() {
                 {courses.length? 
                     courses.map(course => {
                         if (course.paid) {
-                            return;
+                            return null;
                         }
                         return(
                             <Link key={course.id} to={{pathname: routes.courseUnpaid, courseId: course.id}}>

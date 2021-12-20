@@ -5,7 +5,6 @@ import { gql, useMutation } from "@apollo/client";
 import { logStdntIn, setTried } from "../apollo";
 import { useForm, useFormState } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link, Route } from "react-router-dom";
 import AuthLayout from "../components/auth/AuthLayout";
 import PageTitle from "../components/PageTitle";
 import FormError from "../components/auth/FormError";
