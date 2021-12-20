@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { useReactiveVar, ApolloProvider } from "@apollo/client";
-import { darkModeVar, isLoggedInUserVar, isLoggedInAsWhoVar, client } from './apollo';
+import { darkModeVar, isLoggedInUserVar, client } from './apollo';
 import { lightTheme, darkTheme, GlobalStyles } from './styles';
 import { HelmetProvider } from "react-helmet-async";
 import Main from './screens/Main';
@@ -18,15 +18,16 @@ import MyCourses from "./screens/MyCourses";
 import RegisterCourse from "./screens/RegisterCourse";
 import GroupCourse from "./screens/GroupCourse";
 import MasterCourse from "./screens/MasterCourse";
-import GroupCourseThree from "./screens/GroupCourseTwo";
-import GroupCourseTwo from "./screens/GroupCourseThree";
+import GroupCourseThree from "./screens/GroupCourseThree";
+import GroupCourseTwo from "./screens/GroupCourseTwo";
 import GroupCourseOne from "./screens/GroupCourseOne";
 import EditTried from "./screens/EditTried";
 import CourseRoad from "./screens/CourseRoad";
+import Header from "./components/Header";
+import CourseUnpaid from "./screens/CourseUnpaid";
 
 function App() {
   const isLoggedInUser = useReactiveVar(isLoggedInUserVar);
-  const isLoggedInAsWho = useReactiveVar(isLoggedInAsWhoVar);
   const darkMode = useReactiveVar(darkModeVar); 
   return (
     <ApolloProvider client={client}>
@@ -36,6 +37,7 @@ function App() {
     <Router>
       <Switch>
         <Route path={routes.main} exact>
+          <Header/>
           <Main/>
         </Route>
         {!isLoggedInUser? (
@@ -172,6 +174,19 @@ function App() {
         </Route>
         ) : (
         <Route path={routes.courseRoad} exact>
+          <SignHeader/>
+          <Login/>
+        </Route>
+        )}
+        {isLoggedInUser? (
+        <Route path={routes.courseUnpaid} exact>
+          <MyPageHeader/>
+          <MyPageProfile/>
+          <MyPageNav/>
+          <CourseUnpaid/>
+        </Route>
+        ) : (
+        <Route path={routes.courseUnpaid} exact>
           <SignHeader/>
           <Login/>
         </Route>

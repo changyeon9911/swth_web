@@ -32,7 +32,7 @@ const MenuBtns = styled.span`
     padding-right: 30px;
 `;
 
-export default function Header({executeScroll1, executeScroll2}) {
+export default function Header() {
     const isLoggedInUser = useReactiveVar(isLoggedInUserVar); 
     return(
     <HeaderBox>
@@ -41,8 +41,8 @@ export default function Header({executeScroll1, executeScroll2}) {
         </HeaderLogo>
         <HeaderMenu>
             <Link to={routes.main}><MenuBtns>Main</MenuBtns></Link>
-            <MenuBtns onClick={executeScroll1}>Course</MenuBtns>
-            <MenuBtns onClick={executeScroll2}>Tutors</MenuBtns>
+            <MenuBtns>Course</MenuBtns>
+            <MenuBtns>Tutors</MenuBtns>
             {isLoggedInUser ? <Link to={routes.freeRegister}><MenuBtns>My Page</MenuBtns></Link> 
             : null }
             {isLoggedInUser ? <Link to={routes.main}><MenuBtns onClick={async()=>{await logUserOut();}}>Logout</MenuBtns></Link> 

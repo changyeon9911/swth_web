@@ -1,7 +1,6 @@
 import { React, useEffect } from 'react';
 import styled from 'styled-components';
 import { gql, useQuery } from '@apollo/client';
-import { setTried } from '../../apollo';
 
 const ProfileBox = styled.div`
     display: flex;
@@ -42,18 +41,17 @@ const VIEWSTDNTSELF_QUERY = gql`
             stdnt {
                 email
                 username
-                tried
             }
         }
     }
 `;
 
-const LISTLATESTCLASSES_QUERY = gql`
-    query ListLatestClasses {
-        ListLatestClasses {
+const LISTLATESTCLASS_QUERY = gql`
+    query ListLatestClass {
+        ListLatestClass {
             ok
             error
-            classes {
+            class {
                 startsat
                 duration
             }
@@ -63,7 +61,7 @@ const LISTLATESTCLASSES_QUERY = gql`
 
 export default function MyPageProfile() {
     const { data : data1, loading: loading1, error: error1, refetch: refetch1 } = useQuery(VIEWSTDNTSELF_QUERY);
-    const { data : data2, loading: loading2, error: error2, refetch: refetch2 } = useQuery(LISTLATESTCLASSES_QUERY);
+    const { data : data2, loading: loading2, error: error2, refetch: refetch2 } = useQuery(LISTLATESTCLASS_QUERY);
     
     useEffect(() => {
             refetch1();
@@ -71,10 +69,7 @@ export default function MyPageProfile() {
         }, []);
     
     const stdnt = (data1 ? data1.ViewStdntSelf.stdnt : false);
-    const latestClassesOk = data2?.ListLatestClasses?.ok;
-    if (stdnt) {
-        setTried(stdnt.tried);
-    }
+    const latestClassOk = data2?.ListLatestClass?.ok;
 
     return(
         <ProfileBox>
@@ -84,7 +79,7 @@ export default function MyPageProfile() {
             </ProfileInfo>
             <ProfileClass>
                 <div>다음 수업 보기</div>
-                {latestClassesOk? <div>{data2?.ListLatestClasses?.classes}</div> : <div>등록된 수업이 없습니다.</div>}
+                {latestClassOk? <div>{data2?.ListLatestClass?.class.startsat}</div> : <div>등록된 수업이 없습니다.</div>}
             </ProfileClass>
         </ProfileBox>
     )    

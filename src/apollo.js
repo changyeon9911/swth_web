@@ -44,7 +44,6 @@ export const logUserOut = async () => {
   isLoggedInUserVar(false);
   isLoggedInAsWhoVar("3");
   tokenVar("");
-  isTriedVar(false);
 };
 
 export const setTried = async (tried) => {

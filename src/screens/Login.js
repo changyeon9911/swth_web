@@ -23,8 +23,9 @@ const LOGINSTDNT_MUTATION = gql`
   mutation LoginStdnt($email: String!, $password: String!) {
     LoginStdnt(email: $email, password: $password) {
       ok
-      token
       error
+      token
+      tried
     }
   }
 `;
@@ -41,9 +42,10 @@ export default function Login() {
   });
   const {isValid, errors} = useFormState({control});
   const onCompleted = async (data) => {
-    const { LoginStdnt: { ok, error, token } } = data;
+    const { LoginStdnt: { ok, error, token, tried } } = data;
     if (ok) {
       await logStdntIn(token);
+      await setTried(tried);
       history.push(routes.freeRegister);
     } else {
       alert(error);

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import Button from '../components/auth/Button'
+import Button from './auth/Button'
 
 function Modal({
   className,
@@ -23,7 +23,7 @@ function Modal({
     }
   }
   return (
-    <>
+    <div>
       <ModalOverlay visible={visible} />
       <ModalWrapper
         className={className}
@@ -33,10 +33,10 @@ function Modal({
       >
         <ModalInner tabIndex="0" className="modal-inner">
           {children}
-          {closable && <Button className="modal-close" onClick={close}/>}
+          {closable && <Button className="modal-close" defaultValue="끄기" onClick={close}/>}
         </ModalInner>
       </ModalWrapper>
-    </>
+    </div>
   )
 }
 

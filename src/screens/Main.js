@@ -7,7 +7,6 @@ import routes from "../routes";
 import CourseCard from '../components/CourseCard';
 import TutorCard from "../components/TutorCard";
 import Modal from '../components/Modal';
-import Header from '../components/Header';
 
 export default function Main() {
   const [whosVideo, setWhosVideo] = React.useState("");
@@ -18,20 +17,18 @@ export default function Main() {
   const closeModal = () => {
     setModalVisible(false)
   }
-  const courseRef = React.useRef(null);
-  const tutorRef = React.useRef(null);
-  const executeScroll1 = () => courseRef.current.scrollIntoView();
-  const executeScroll2 = () => tutorRef.current.scrollIntoView();
   return(
     <BaseBox>
-      <Header executeScroll1={executeScroll1} executeScroll2={executeScroll2}/>
       <h1>Sweet Han</h1>
-      <YoutubeVideo link="https://www.youtube.com/embed/tmA7FjLm3E0"/>
-      <div style={{display: "flex"}}>
+      <div style={{display: "flex", justifyContent: "center"}}>
+        <YoutubeVideo link="https://www.youtube.com/embed/tmA7FjLm3E0"/>
+      </div>
+      <div style={{display: "flex", justifyContent: "center"}}>
         <Link to={routes.freeRegister}><Button value="무료 수업하기"/></Link>
       </div>
+
       <h1>Courses</h1>
-      <div ref={courseRef} style={{height: 300, display: "flex", justifyContent: "center", alignItems: "center"}}>
+      <div style={{height: 300, display: "flex", justifyContent: "center", alignItems: "center"}}>
         <div>
           <CourseCard>Master Course</CourseCard>
           <Link to={routes.masterCourse}><Button value="자세히 알아보기"/></Link>
@@ -41,8 +38,9 @@ export default function Main() {
           <Link to={routes.groupCourse}><Button value="자세히 알아보기"/></Link>
         </div>
       </div>
+
       <h1>Tutors</h1>
-      <div ref={tutorRef} style={{height: 300, display: "flex", justifyContent: "center", alignItems: "center"}}>
+      <div style={{height: 300, display: "flex", justifyContent: "center", alignItems: "center"}}>
         <div style={{display: "flex"}}>
             <TutorCard onClick={()=>{setWhosVideo("https://www.youtube.com/embed/tmA7FjLm3E0"); openModal();}}>진현</TutorCard>
             <TutorCard onClick={()=>{setWhosVideo("https://www.youtube.com/embed/tmA7FjLm3E0"); openModal();}}>경모</TutorCard>
@@ -56,6 +54,19 @@ export default function Main() {
           maskClosable={true}
           onClose={closeModal}><YoutubeVideo link={whosVideo}/></Modal>
       }
+      </div>
+
+      <h1>Free Class</h1>
+      <div style={{display: "flex", justifyContent: "center"}}>
+        <Link to={routes.freeRegister}><Button value="무료 수업하기"/></Link>
+      </div>
+
+      <h1>Information</h1>
+      <div>
+        Informations:
+        1.
+        2.
+        3.
       </div>
     </BaseBox>
     )

@@ -12,7 +12,8 @@ const routes = {
     gl1: "/gl1",
     gl2: "/gl2",
     gl3: "/gl3",
-    courseRoad: "/courseroad",  
+    courseRoad: "/courseroad",
+    courseUnpaid: "/courseunpaid",
 }
 
 export default routes;

@@ -63,7 +63,7 @@ export default function MyCourses() {
                             return;
                         }
                         return(
-                            <Link key={course.id} to={{pathname: routes.courseRoad, courseId: course.id}}>
+                            <Link key={course.id} to={{pathname: routes.courseUnpaid, courseId: course.id}}>
                                 <CourseCard>{course.name}</CourseCard>
                             </Link>
                             );

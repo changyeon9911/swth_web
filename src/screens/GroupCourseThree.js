@@ -1,13 +1,21 @@
 import * as React from 'react';
 import Button from '../components/auth/Button';
+import FormBox from '../components/auth/FormBox';
+import AuthLayout from '../components/auth/AuthLayout';
+import CoursePicker from '../components/CoursePicker';
+import { useForm } from 'react-hook-form';
 
-export default function GroupCourseTwo() {
+export default function GroupCourseThree() {
+    const {register, getValues} = useForm();
     return(
-    <div>
-      <h1>Welcome we did it!</h1>
+    <AuthLayout>
+      <FormBox>
+      <h1>Group Course Three</h1>
       <form>
-            <Button type="submit" value="수업 신청하기"/>
+          <CoursePicker register={{...register("courseTime")}}/>
+          <Button type="submit" value="수업 신청하기"/>
       </form>
-    </div>
+      </FormBox>
+    </AuthLayout>
     )
 }

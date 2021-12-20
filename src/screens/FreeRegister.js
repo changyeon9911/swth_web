@@ -1,5 +1,5 @@
 import { gql, useReactiveVar, useMutation } from "@apollo/client";
-import { isTriedVar, setTried } from "../apollo";
+import { isTriedVar } from "../apollo";
 import PageTitle from "../components/PageTitle";
 import FormBox from "../components/auth/FormBox";
 import Subtitle from './../components/auth/Subtitle';
@@ -7,11 +7,12 @@ import MyPageSemiLayout from "../components/mypage/MyPageSemiLayout";
 import MyPageBorder from "../components/mypage/MyPageBorder";
 import Button from "../components/auth/Button";
 import Input from "../components/auth/Input";
-import TimePicker from "../components/auth/TimePicker";
-import LevelPicker from "../components/auth/LevelPicker";
+import TimePicker from "../components/TimePicker";
+import LevelPicker from "../components/LevelPicker";
 import routes from "../routes";
 import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import slackNotify from "../slack";
 
 const CREATE_FREECOURSE_STDNT_MUTATION = gql`
   mutation CreateFreeCourseStdnt($classDate: String!, $classTime: String!, $level: String!) {
@@ -29,6 +30,7 @@ export default function FreeRegister() {
   const onCompleted = async (data) => {
     const { CreateFreeCourseStdnt: { ok, error } } = data;
     if (ok) {
+      await slackNotify("C02QWSXNRGX", "무료수업 신청");
       history.push(routes.editTried);
     } else {
       alert(error);
@@ -41,7 +43,6 @@ export default function FreeRegister() {
     }
     console.log(getValues());
     const { classDate, classTime, level } = getValues();
-    console.log(classTime);
     mutationf({
       variables: { classDate, classTime, level },
     });
