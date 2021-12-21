@@ -21,7 +21,6 @@ export default function EditTried() {
   const onCompleted2 = async (data) => {
     const { EditStdnt: { ok, error } } = data;
     if (ok) {
-      editStdnt({variables: {tried: true}});
       setTried(true);
       history.push(routes.registerCourse);
     } else {
