@@ -27,11 +27,11 @@ const VIEWSTDNTSELFPAID_QUERY = gql`
 `;
 
 export default function MyCourses() {
+    const { data, refetch } = useQuery(VIEWSTDNTSELFPAID_QUERY);
     useEffect(() => {
         refetch();
     });
     
-    const { data, refetch } = useQuery(VIEWSTDNTSELFPAID_QUERY);
     let courses = data?.ViewStdntSelfPaid?.stdnt?.courses;
     if (!courses) {
         courses = new Array(0);
